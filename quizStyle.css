@@ -1,0 +1,27 @@
+head{
+    background-color:cadetblue;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+h4{
+    text-align: center;
+    font-size: xx-large;
+}
+
+body{
+    background-color: cadetblue;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
+
+.welcome-container{
+    text-align: center;
+    text-decoration-color: pink;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.question-container{
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+
+}
