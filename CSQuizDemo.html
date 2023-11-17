@@ -19,28 +19,10 @@
         <button type="submit">submit</button>
     </form>
 
-    <script id="welcome-template" type="text/x-handlebars-template">
-        <p>Welcome, {{name}}! Let's get started!</p>    
-        <p>Please select a quiz below:</p>
-        <div id="quiz-options">
-        <input type="radio" id="html" name="fav_language" value="HTML" class="language">
-        <label for="html">HTML</label><br>
-        <input type="radio" id="java" name="fav_language" value="Java" class="language">
-        <label for="java">Java</label><br>
-        </div>
-        <button id="next">next</button>
-        </script>
+    <div id="customViews"> 
 
-        <script id="question-template" type="text/x-handlebars-template">
-            <p>{{question}}</p>    
-            </script>
-            <script id="choices-template" type="text/x-handlebars-template">
-                {{#each choice}} 
-                <input type="radio" name="answer" value="{{this}}">{{this}}<br>
-                {{/each}} 
-                <button id="answered">-></button>
-            </script>
 
+    </div>
     <div id="welcome-container"></div>
     <h1 id="quiz-title"></h1>
     <div id="question-container"></div>
@@ -48,5 +30,29 @@
     <div id="results-container"></div>
 
 </body>
+
+
+
+<script id="welcome-template" type="text/x-handlebars-template">
+    <p>Welcome, {{name}}! Let's get started!</p>    
+    <p>Please select a quiz below:</p>
+    <div id="quiz-options">
+    <input type="radio" id="lang" name="fav_language" value="HTML" class="language">
+    <label for="html">HTML</label><br>
+    <input type="radio" id="lang" name="fav_language" value="Java" class="language">
+    <label for="java">Java</label><br>
+    </div>
+    <button id="next">next</button>
+    </script>
+
+<script id="question-template" type="text/x-handlebars-template">
+    <p>{{question}}</p>    
+    </script>
+    <script id="choices-template" type="text/x-handlebars-template">
+         {{#each choice}} 
+        <input type="radio" name="answer" value="{{this}}">{{this}}<br>
+        {{/each}} 
+        <button onclick="nextQuestion()" id="answered" name="answered" value="answered">-></button>
+    </script>
 
 </html>
