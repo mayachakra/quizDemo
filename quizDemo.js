@@ -23,16 +23,6 @@ const answerContainer = document.getElementById("answer-container");
 const questionTemp = Handlebars.compile(document.getElementById("question-template").innerHTML);
 const choiceTemp = Handlebars.compile(document.getElementById("choices-template").innerHTML);
 
-
-//new code
-
-
-//QUESTIONS
-//1. next button not working in quiz, ref line 302 onward
-//2. need to remove quiz selection but cant or no quizzes load
-//3. need score display
-
-
 let score = 0;
 //const nextQuestButton = document.getElementById("answered");
 const resultsMessage = document.getElementById("results-container");
@@ -157,12 +147,6 @@ function ask_quiz(){
 }
 
 
-//make value to store quiz type value, will not read 156 after another run
-//bc the form got removed
-//to check for each type of quiz
-
-
-
 function renderQuest(){
     if (namecount == 0){
         selectedQuiz = document.querySelector('input[type=radio]:checked');
@@ -170,23 +154,13 @@ function renderQuest(){
         sessionStorage.setItem("quizNameCheck",selectedQuiz.value);
         namecount++
     }
-    //console.log(sessionStorage.getItem("quizNameCheck"))
-    //if getitem quiznamecheck = java, run java quiz else html
-    //const currentQuiz = selectedQuiz[currentQuestion];
-    /*how to check for certain quiz
-    quizTitle.textContent = currentQuiz.question;
-    questionContainer.innerHTML = questionTemp(question);
-    choicesContainer.innerHTML = choiceTemp(question);
-    */
-   //check this
-    //console.log("line 156:" + selectedQuiz.value)
     
     console.log("renderQuest() inside")
     if (sessionStorage.getItem("quizNameCheck") == 'Java'){
         const question = javaQuest[currentQuest];
         questionContainer.innerHTML = questionTemp(question);
         choicesContainer.innerHTML = choiceTemp(question);
-        //check this for the erro
+       
 
 
     }else{
@@ -208,10 +182,6 @@ function renderQuest(){
         */
 }
 
-
-//make another answer check for html quiz
-
-
 function answerCheck2(){//html
     //new code
     resultsMessage.style.display = 'block';
@@ -232,7 +202,7 @@ function answerCheck2(){//html
 
     if (selectedAnswer === htmlCorrect){
         score++;
-        resultsMessage.textContent= 'Correct!'; //make red in css with results-container
+        resultsMessage.textContent= 'Correct!';
         setTimeout(function(){
             resultsMessage.style.display = 'none';
         }, 1500);
@@ -261,8 +231,6 @@ function answerCheck2(){//html
         );
     }
    
-   
-
     //currentQuest++;
 }
 
@@ -318,21 +286,6 @@ if(currentQuest < javaQuest.length){
 function nextQuestion(){
     let selectedQuizCheck = '';
     selectedQuizCheck = document.querySelector('input[type=radio]:checked');
-
-   // console.log("SELECTED QUIZ" + selectedQuizCheck)
-
-    /*
-    const answerButton = document.getElementById("answered")
-    
-    answerButton.addEventListener('click', function(){
-    const buttonValue = this.value;  
-        if (buttonValue.value = 'answered'){
-        
-        }else{
-            displayResult();
-         
-        } 
-    })*/
     
         if (sessionStorage.getItem("quizNameCheck") == 'Java'){
             answerCheck(correctAnswer); //for java
