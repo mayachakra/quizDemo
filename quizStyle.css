@@ -13,7 +13,11 @@ body{
     font-family: Georgia, 'Times New Roman', Times, serif;
 
 }
-
+.name-form{
+    color:darkolivegreen;
+    font-size: x-large;
+    font-family: Georgia, 'Times New Roman', Times, serif;  
+}
 .welcome-container{
     text-align: center;
     text-decoration-color: pink;
@@ -24,4 +28,17 @@ body{
     text-align: center;
     font-family: Georgia, 'Times New Roman', Times, serif;
 
+}
+
+.choices-container{
+    align-items: center;
+    text-align: center;
+    font-size: medium;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.results-container{
+    text-align: center;
+    font-size: x-large;
+    font-family: Georgia, 'Times New Roman', Times, serif;
 }

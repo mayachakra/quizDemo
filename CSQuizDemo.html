@@ -54,7 +54,7 @@
     </script>
     <script id="choices-template" type="text/x-handlebars-template">
          {{#each choice}} 
-        <input type="radio" name="answer" value="{{this}}">{{this}}<br>
+        <input type="radio" name="answer" id="chosen" value="{{this}}">{{this}}<br>
         {{/each}} 
         <button onclick="nextQuestion()" id="answered" name="answered" value="answered">-></button>
     </script>

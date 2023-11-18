@@ -5,7 +5,6 @@ const welcomeMessage = document.getElementById("welcome-container");
 const welcomeTemplate = Handlebars.compile(document.getElementById("welcome-template").innerHTML);
 var namecount = 0;
 let selectedQuiz = '';
-let selectedAnswer = 0;
 
 
 const sessionStorage = window.sessionStorage;
@@ -14,8 +13,8 @@ sessionStorage.setItem("quizNameCheck","dummy");
 
 let quizNameCheck = '';
 
-
-var currentQuest=-1;
+let selectedAnswer = 0;
+let currentQuest=-1;
 const questionContainer = document.getElementById("question-container");
 const choicesContainer = document.getElementById("choices-container");
 const answerContainer = document.getElementById("answer-container");
@@ -65,20 +64,17 @@ const javaQuest = [
     {
         question: "What is the correct syntax to print 'Hello World' in Java?",
         choice: ["print('hello world');", "System.out.println('hello world');", "echo('hello world');"],
-        correctchoice: "print('hello world');"
+        correctchoice: "System.out.println('hello world');"
     },
 
 
     {
-        question: "Which of these coding segments outputs a value of 2?",
-        choice: ["img1", "img2", "img3"],
-        correctchoice: "img2"
-        //add images
-        //add score count
+        question: "If I want my input to be stored in a variable, which data type will hold it?",
+        choice: ["inputString", "String", "Text"],
+        correctchoice: "String"
 
 
     },
-
 
     {
         question: "What OOP mean in Java?",
@@ -103,7 +99,6 @@ const htmlQuest = [
         question: "What can be used to write javascript in an html file?",
         choice: ["<src>", "<script>", "<br>"],
         correctchoice: "<script>"
-        //add explanation
 
 
     },
@@ -118,12 +113,8 @@ const htmlQuest = [
 
     {
         question: "Which of these is would be coded using the <form> tag?",
-        choice: [
-            {src: ".jpg", alt:"" },
-            {src: ".jpg", alt:"" },
-            {src: ".jpg", alt:"" }
-        ],
-        correctchoice: "img2"
+        choice: ["Entering a name", "Aligning items", "Making a new page"],
+        correctchoice: "Entering a name"
 
 
     },
@@ -175,6 +166,7 @@ function ask_quiz(){
 function renderQuest(){
     if (namecount == 0){
         selectedQuiz = document.querySelector('input[type=radio]:checked');
+        //console.log(selectedQuiz.value)
         sessionStorage.setItem("quizNameCheck",selectedQuiz.value);
         namecount++
     }
@@ -189,12 +181,12 @@ function renderQuest(){
    //check this
     //console.log("line 156:" + selectedQuiz.value)
     
+    console.log("renderQuest() inside")
     if (sessionStorage.getItem("quizNameCheck") == 'Java'){
         const question = javaQuest[currentQuest];
-
-
         questionContainer.innerHTML = questionTemp(question);
         choicesContainer.innerHTML = choiceTemp(question);
+        //check this for the erro
 
 
     }else{
@@ -204,6 +196,16 @@ function renderQuest(){
 
 
     }
+
+    console.log("currentQuest value: " + currentQuest)
+
+    /*
+    document.getElementById("answered").addEventListener("click", function(){
+        setTimeout(function(){
+            nextQuestion();
+        }, 3000);
+        });
+        */
 }
 
 
@@ -211,63 +213,56 @@ function renderQuest(){
 
 
 function answerCheck2(){//html
-
-
     //new code
     resultsMessage.style.display = 'block';
 
-
-    console.log("TEST" + correctAnswer);
-
+    //console.log("TEST" + correctAnswer);
 
     correctAnswer.forEach(answer =>{
         if(answer.checked){
             selectedAnswer = answer.value;
         }
     });
-
+    console.log("1"+selectedAnswer)
 
 //goes to next page but does not display score or check display wrong choice message
+ 
+    var htmlCorrect = htmlQuest[currentQuest].correctchoice;
+    console.log("2"+htmlCorrect)
 
-
-//check bc this is only for java quests NOT HTML so add HTML
-   //console.log("line 190:" + javaQuest[currentQuest].correctchoice);
-   //console.log("line 200:" + htmlQuest[currentQuest].correctchoice);
-
-    //for html quiz
-    //console.log("CURRENT QUEST:"+ currentQuest)
-
-    if (selectedAnswer === htmlQuest[currentQuest].correctchoice){
+    if (selectedAnswer === htmlCorrect){
         score++;
         resultsMessage.textContent= 'Correct!'; //make red in css with results-container
         setTimeout(function(){
             resultsMessage.style.display = 'none';
-        }, 1000);
+        }, 1500);
         //result-container message .textContent = ''; //for correct
-        
-
-
     }
     else{ 
-        resultsMessage.textContent= 'Unfortunately, this is incorrect. The correct choice was ' + htmlQuest[currentQuest].correctchoice;
-        //add explanation
-        //check if you need to use
-        //AWAIT/ASYNC
+        resultsMessage.textContent= 'Unfortunately, this is incorrect. The correct choice was ' + htmlCorrect;
         setTimeout(function(){
             resultsMessage.style.display = 'none';
-        }, 1000);
+        }, 1500);
         
     }
 
 
 //only goes to next question after #1
-    
-    if(currentQuest < htmlQuest.length){
-        renderQuest();
-    }
-    else{
+    if(currentQuest == htmlQuest.length - 1){
+        console.warn("DDD");
         displayResult();
     }
+
+    if(currentQuest < htmlQuest.length){
+        console.log("htmlQuest: " + htmlQuest.length)
+        console.log("Line 258 calling renderQuest()")
+        setTimeout(
+            renderQuest, 2000
+        );
+    }
+   
+   
+
     //currentQuest++;
 }
 
@@ -275,41 +270,47 @@ function answerCheck2(){//html
 //java quiz answer check
 function answerCheck(){//java
     resultsMessage.style.display = 'block';
-    
+    //console.log("TEST" + correctAnswer);
     correctAnswer.forEach(answer =>{
-        //alert("answer value: " + answer.value);
         if(answer.checked){
             selectedAnswer = answer.value;
         }
     });
-    
-    //alert("final sa " + selectedAnswer);
+    console.log("1"+selectedAnswer)
 
+//goes to next page but does not display score or check display wrong choice message
+    var javaCorrect = javaQuest[currentQuest].correctchoice;
+    console.log("2"+javaCorrect)
 
-    if (selectedAnswer == javaQuest[currentQuest].correctchoice){
-        //alert("right " + javaQuest[currentQuest].correctchoice);
+    if (selectedAnswer === javaCorrect){
         score++;
         resultsMessage.textContent= 'Correct!'; //make red in css with results-container
         setTimeout(function(){
-            resultsMessage.style.display = 'none';}, 10000);
+            resultsMessage.style.display = 'none';
+        }, 1500);
+        //result-container message .textContent = ''; //for correct
     }
-
-
-    else if(selectedAnswer != javaQuest[currentQuest].correctchoice){
-        //alert("wrong " + javaQuest[currentQuest].correctchoice);
-        resultsMessage.textContent= 'Unfortunately, this is incorrect. The correct choice was ' + javaQuest[currentQuest].correctchoice;
-        setTimeout(function(){resultsMessage.style.display = 'none';}, 10000);
+    else{ 
+        resultsMessage.textContent= 'Unfortunately, this is incorrect. The correct choice was ' + javaCorrect;
+        setTimeout(function(){
+            resultsMessage.style.display = 'none';
+        }, 1500);
+        
     }
-    
-//------
+//only goes to next question after #1 
+if(currentQuest == javaQuest.length - 1){
+    console.warn("DDD");
+    displayResult();
+}
 
+if(currentQuest < javaQuest.length){
+    console.log("htmlQuest: " + javaQuest.length)
+    console.log("Line 258 calling renderQuest()")
+    setTimeout(
+        renderQuest, 3000
+    );
+}
 
-    if(currentQuest < javaQuest.length){
-        renderQuest();
-    }
-    else{
-        displayResult();
-    }
     //currentQuest++;
 }
 
@@ -318,6 +319,7 @@ function nextQuestion(){
     let selectedQuizCheck = '';
     selectedQuizCheck = document.querySelector('input[type=radio]:checked');
 
+   // console.log("SELECTED QUIZ" + selectedQuizCheck)
 
     /*
     const answerButton = document.getElementById("answered")
@@ -331,16 +333,18 @@ function nextQuestion(){
          
         } 
     })*/
-
-
+    
         if (sessionStorage.getItem("quizNameCheck") == 'Java'){
-            answerCheck(correctAnswer); //for jav
+            answerCheck(correctAnswer); //for java
             currentQuest++;
+            //when it does ++ it skips to next
      
         }else{
             answerCheck2(correctAnswer); //for html
+           // while(answerCheck2(correctAnswer) > htmlQuest.length){
             currentQuest++;
-          
+           // }
+           // currentQuest++;
         
         }
     
@@ -350,15 +354,15 @@ function nextQuestion(){
 
 //new code
 function displayResult(){
-    questionContainer.innerHTML = "Congratulations! You completed the quiz!";
+    console.warn("QUIZ HAS FINISHED");
+    questionContainer.innerHTML = "Congratulations! You completed the quiz! Lets see your results...";
     choicesContainer.innerHTML = "";
     setTimeout(function(){
         resultsMessage.style.display = 'block'
-    }, 1000);
-
-
+        resultsMessage.textContent = "You scored a "+ score + " out of 5";
+    }, 5000);
+    document.getElementById("answered").remove();
     //document.getElementById("results-container").innerHTML = score;
-    resultsMessage.textContent = "You scored a "+ score + " out of 5";
 }
 
 
@@ -376,16 +380,7 @@ nameForm.addEventListener("submit", function(){
     document.getElementById("next").addEventListener("click",function(){
         alert("The Quiz will now begin");
         currentQuest++;
-        if(currentQuest < 4){
-            renderQuest();
-            document.getElementById("answered").addEventListener("click", function(){nextQuestion();});
-        }
-        else if (currentQuest == 4){
-            console.log(score)
-            displayResult();
-    }
-
-
+        renderQuest();
     //to get rid of welcome template
         welcomeMessage.innerHTML = "";
     });
@@ -395,23 +390,14 @@ nameForm.addEventListener("submit", function(){
 
 const quizContainer = document.getElementById('quiz-container');
 // Fetching quiz questions from JSONPlaceholder API (Assuming the /posts endpoint holds quiz data)
-fetch('https://jsonplaceholder.typicode.com/CSQuizDemo.html ')
-  .then(response => response.json())
-  .then(questions => {
-    // Handle the fetched quiz questions here
-    console.log('Fetched quiz questions:', questions);
-    renderQuest();
 
-    // Render quiz questions to the quiz container
-    questions.forEach(question => {
-        
-      const questionElement = document.createElement('div');
-      questionElement.classList.add('question');
-      questionElement.innerHTML = `
-        <h3>${question.title}</h3>
-        <p>${question.body}</p>
-      `;
-      quizContainer.appendChild(questionElement);
-    });
+
+
+fetch('https://jsonplaceholder.typicode.com/posts')
+  .then(response => {
+        response.json()
+        console.log('Fetched quiz questions:', renderQuest());
+        renderQuest();
+
   });
 
